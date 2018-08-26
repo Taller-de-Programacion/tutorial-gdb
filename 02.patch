@@ -1,0 +1,27 @@
+diff --git stack.c stack.c
+index 45a23bb..fa9f17b 100644
+--- stack.c
++++ stack.c
+@@ -76,21 +76,21 @@ int stack_pop(struct Stack *stack, long int *val) {
+     stack->top -= 1;
+     *val = *(stack->top);
+ 
+     // shrink if the stack is at 25% or less of its capacity.
+     // reducing it to the half
+     size_t l = stack_len(stack);
+     if (l < (stack->capacity / 4) &&
+              stack->capacity > 4) {
+ 
+         void *tmp = realloc(stack->base, (stack->capacity/2)*sizeof(*stack->base));
+-        if (tmp)
++        if (!tmp)
+             return -1;
+ 
+         stack->capacity /= 2;
+         stack->base = tmp;
+         stack->top = stack->base + l;
+     }
+ 
+     return 0;
+ }
+ 
