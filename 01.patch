@@ -1,0 +1,26 @@
+diff --git stack.c stack.c
+index ff58b45..ea322ef 100644
+--- stack.c
++++ stack.c
+@@ -50,8 +50,9 @@ int stack_push(struct Stack *stack, long int val) {
+     if (l >= stack->capacity) {
+         // twice the size
+-        void *tmp = realloc(stack->base, (stack->capacity*2));
++        void *tmp = realloc(stack->base, (stack->capacity*2)*sizeof(*stack->base));
+         if (!tmp)
+             return -1;
+ 
++        stack->capacity *= 2;
+         stack->base = tmp;
+         stack->top = stack->base + l;
+@@ -82,8 +83,9 @@ int stack_pop(struct Stack *stack, long int *val) {
+              stack->capacity > 4) {
+ 
+-        void *tmp = realloc(stack->base, (stack->capacity/2));
++        void *tmp = realloc(stack->base, (stack->capacity/2)*sizeof(*stack->base));
+         if (tmp)
+             return -1;
+ 
++        stack->capacity /= 2;
+         stack->base = tmp;
+         stack->top = stack->base + l;
